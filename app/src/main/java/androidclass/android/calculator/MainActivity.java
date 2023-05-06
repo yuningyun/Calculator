@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         formula = (TextView) findViewById(R.id.formula);
         number = (TextView) findViewById(R.id.number);
 
