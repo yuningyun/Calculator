@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,8 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
     boolean op = false; // 연산자 입력을 위한 변수
     private Stack<String> operatorStack; // 연산자를 위한 스택
-
-
+    List<String> infix; // 중위 표기
+    List<String> postfix; // 후위 표기
+    List<String> memorylist; // 메모리 저장 리스트
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
 
         formula = (TextView) findViewById(R.id.formula);
         number = (TextView) findViewById(R.id.number);
+
+        operatorStack = new Stack<>();
+        infix = new ArrayList<>();
+        postfix = new ArrayList<>();
+        memorylist = new ArrayList<>();
 
     }
 
@@ -58,22 +66,24 @@ public class MainActivity extends AppCompatActivity {
     public void addoperation(View v) {
         if(formula.getText() == null || op == true){
             op = false;
+
+            if(number.getText().charAt(0) == '-' || number.getText().charAt(0) == '+') {
+                formula.append("("+number.getText()+")");
+            } else {
+                formula.append(number.getText());
+            }
             switch(v.getId()){
                 case R.id.plus:
-                    formula.append(number.getText());
-                    formula.append("+");
+                    formula.append(" + ");
                     break;
                 case R.id.sub:
-                    formula.append(number.getText());
-                    formula.append("-");
+                    formula.append(" - ");
                     break;
                 case R.id.mul:
-                    formula.append(number.getText());
-                    formula.append("x");
+                    formula.append(" x ");
                     break;
                 case R.id.div:
-                    formula.append(number.getText());
-                    formula.append("/");
+                    formula.append(" / ");
                     break;
             }
             number.setText("0");
@@ -83,20 +93,20 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             else {
-                formula.setText(formula.getText().toString().substring(0, formula.getText().length() - 1));
+                formula.setText(formula.getText().toString().substring(0, formula.getText().length() - 3));
             }
             switch(v.getId()){
                 case R.id.plus:
-                    formula.append("+");
+                    formula.append(" + ");
                     break;
                 case R.id.sub:
-                    formula.append("-");
+                    formula.append(" - ");
                     break;
                 case R.id.mul:
-                    formula.append("x");
+                    formula.append(" x ");
                     break;
                 case R.id.div:
-                    formula.append("/");
+                    formula.append(" / ");
                     break;
             }
         }
@@ -122,7 +132,40 @@ public class MainActivity extends AppCompatActivity {
         op = false;
     }
 
+    public void sign(View v) {
+        if(number.getText().charAt(0) != '-' && number.getText().charAt(0) != '+'){
+            number.setText("-"+number.getText());
+        } else if(number.getText().charAt(0) == '-') {
+            number.setText("+"+number.getText().toString().substring(1,number.getText().length()));
+        } else {
+            number.setText("-"+number.getText().toString().substring(1,number.getText().length()));
+        }
+    }
+
     public void equal(View v) {
+        if (formula.length() == 0) return;
+
+    }
+
+    public void memoryset(View v) {
+        memorylist.add(number.getText().toString());
+    }
+
+    public void memoryread(View v) {
+        if(memorylist.size() == 0) return;
+        number.setText(memorylist.get(memorylist.size()-1));
+    }
+
+    public void memoryclear(View v) {
+        memorylist.clear();
+    }
+
+    public void memoryplus(View v) {
+        number.getText().toString();
+        memorylist.get(memorylist.size()-1);
+    }
+
+    public void memorysub(View v) {
 
     }
 }

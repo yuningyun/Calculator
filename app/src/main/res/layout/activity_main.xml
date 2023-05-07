@@ -40,35 +40,40 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="mc"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:onClick="memoryclear"/>
                 <Button
                     android:id="@+id/mr"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="mr"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:onClick="memoryread"/>
                 <Button
                     android:id="@+id/mplus"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="m+"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:onClick="memoryplus"/>
                 <Button
                     android:id="@+id/msub"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="m-"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:onClick="memorysub"/>
                 <Button
                     android:id="@+id/ms"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="ms"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:onClick="memoryset"/>
             </TableRow>
 
             <TableRow android:layout_weight="1">
@@ -264,7 +269,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="+/-"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:onClick="sign"/>
 
                 <Button
                     android:id="@+id/num0"
