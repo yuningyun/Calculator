@@ -120,7 +120,7 @@
                     android:layout_weight="1"
                     android:text="C"
                     android:textSize="25sp"
-                    />
+                    android:onClick="clear"/>
 
                 <Button
                     android:id="@+id/back"
@@ -136,7 +136,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="/"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:onClick="addoperation"/>
 
             </TableRow>
 
@@ -173,7 +174,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="X"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:onClick="addoperation"/>
 
             </TableRow>
 
@@ -211,7 +213,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="-"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:onClick="addoperation"/>
 
             </TableRow>
 
@@ -248,7 +251,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="+"
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:onClick="addoperation"/>
 
             </TableRow>
 
