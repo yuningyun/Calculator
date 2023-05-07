@@ -6,13 +6,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView formula;
     TextView number;
 
-    boolean op = false;
+    boolean op = false; // 연산자 입력을 위한 변수
+    private Stack<String> operatorStack; // 연산자를 위한 스택
 
 
 
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.mul:
                     formula.append(number.getText());
-                    formula.append("*");
+                    formula.append("x");
                     break;
                 case R.id.div:
                     formula.append(number.getText());
@@ -74,8 +78,13 @@ public class MainActivity extends AppCompatActivity {
             }
             number.setText("0");
         } else {
-            formula.setText(formula.getText().toString().substring(0, formula.getText().length() - 1));
-
+            if(formula.getText().length() - 1 == -1){
+                Toast.makeText(getApplicationContext(), "연산자가 올 수 없습니다.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else {
+                formula.setText(formula.getText().toString().substring(0, formula.getText().length() - 1));
+            }
             switch(v.getId()){
                 case R.id.plus:
                     formula.append("+");
@@ -84,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     formula.append("-");
                     break;
                 case R.id.mul:
-                    formula.append("*");
+                    formula.append("x");
                     break;
                 case R.id.div:
                     formula.append("/");
@@ -95,11 +104,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void clearentry(View v) {
         number.setText("0");
+        op = false;
+    }
 
+    public void back(View v) {
+        if(number.getText().length() - 1 == 0){
+            number.setText("0");
+            op = false;
+        } else {
+            number.setText(number.getText().toString().substring(0, number.getText().length() - 1));
+        }
     }
 
     public void clear(View v) {
         formula.setText("");
         number.setText("0");
+        op = false;
+    }
+
+    public void equal(View v) {
+
     }
 }

@@ -128,7 +128,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="back"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:onClick="back"/>
 
                 <Button
                     android:id="@+id/div"
@@ -289,7 +290,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="="
-                    android:textSize="25sp"/>
+                    android:textSize="25sp"
+                    android:onClick="equal"/>
 
             </TableRow>
 
