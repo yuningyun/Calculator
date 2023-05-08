@@ -1,7 +1,9 @@
 package androidclass.android.calculator;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -179,7 +181,39 @@ public class MainActivity extends AppCompatActivity {
         double m_num = Double.parseDouble(memorylist.get(memorylist.size()-1));
         double n_num = Double.parseDouble(number.getText().toString());
 
-        double result = m_num - n_num;
+        double result;
+        if (m_num >= 0 && n_num >= 0) {
+            // 두 수 모두 양수인 경우
+            if (m_num >= n_num) {
+                result = m_num - n_num;
+            } else {
+                result = n_num - m_num;
+                result = -result; // 결과가 음수일 때 부호를 변경
+            }
+        } else if (m_num < 0 && n_num < 0) {
+            // 두 수 모두 음수인 경우
+            result = -m_num - (-n_num); // 절댓값으로 계산 후 부호를 변경
+        } else {
+            // 두 수 중 하나가 음수인 경우
+            result = m_num + n_num;
+        }
         memorylist.set(memorylist.size()-1, Double.toString(result));
+    }
+
+    public void memorylistcheck(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Memory list");
+
+        builder.setItems(memorylist.toArray(new String[0]), new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int inpos)
+            {
+                number.setText(memorylist.get(inpos));
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
