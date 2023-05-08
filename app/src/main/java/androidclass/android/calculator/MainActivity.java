@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "연산자가 올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 return;
             }
-            else {
+            else if (formula.getText().charAt(formula.getText().length() - 1) == '%') {
+            } else {
                 formula.setText(formula.getText().toString().substring(0, formula.getText().length() - 3));
             }
             switch(v.getId()){
@@ -142,6 +143,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void percent(View v) {
+        formula.append(number.getText() + "%");
+        number.setText("0");
+        op = false;
+    }
+
     public void equal(View v) {
         if (formula.length() == 0) return;
 
@@ -161,11 +168,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void memoryplus(View v) {
-        number.getText().toString();
-        memorylist.get(memorylist.size()-1);
+        double m_num = Double.parseDouble(memorylist.get(memorylist.size()-1));
+        double n_num = Double.parseDouble(number.getText().toString());
+
+        double result = m_num + n_num;
+        memorylist.set(memorylist.size()-1, Double.toString(result));
     }
 
     public void memorysub(View v) {
+        double m_num = Double.parseDouble(memorylist.get(memorylist.size()-1));
+        double n_num = Double.parseDouble(number.getText().toString());
 
+        double result = m_num - n_num;
+        memorylist.set(memorylist.size()-1, Double.toString(result));
     }
 }
