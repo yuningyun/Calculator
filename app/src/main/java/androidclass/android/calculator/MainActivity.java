@@ -96,9 +96,9 @@ public class MainActivity extends AppCompatActivity {
             if(formula.getText().length() - 1 == -1){
                 Toast.makeText(getApplicationContext(), "연산자가 올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 return;
-            } else if (formula.getText().charAt(formula.getText().length() - 1) == '%') {
-            } else {
+            } else if (formula.getText().charAt(formula.getText().length() - 1) == ' ') {
                 formula.setText(formula.getText().toString().substring(0, formula.getText().length() - 3));
+            } else {
             }
             switch(v.getId()){
                 case R.id.plus:
@@ -153,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
         // 처음 넣는 수가 아니고 앞에 연산자가 없을 때 더하기 기호를 추가하고 뒤에 넣는다.
         if(!formula.getText().toString().isEmpty()){
             char in = formula.getText().toString().charAt(formula.getText().length()-2);
-            if(in != '+' || in != '-' || in != 'x' || in != '/') {
+            if(in == '+' || in == '-' || in == 'x' || in == '/') {
+            } else {
                 formula.append(" + ");
             }
         }
