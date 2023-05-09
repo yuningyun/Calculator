@@ -21,10 +21,11 @@ public class MainActivity extends AppCompatActivity {
     TextView number;
 
     boolean op = false; // 연산자 입력을 위한 변수
+    boolean eqclick = false; // equals 눌렸는지 확
     private Stack<String> operatorStack; // 연산자를 위한 스택
     List<String> infix; // 중위 표기
     List<String> postfix; // 후위 표기
-    List<String> memorylist; // 메모리 저장 리스트
+    List<String> memorylist; // 메모리 저장 리스트인
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
 
             if(number.getText().charAt(0) == '-' || number.getText().charAt(0) == '+') {
                 formula.append("("+number.getText()+")");
+            } else if(eqclick == true) {
+                formula.setText(number.getText().toString());
+                eqclick = false;
             } else {
                 formula.append(number.getText());
             }
@@ -92,8 +96,7 @@ public class MainActivity extends AppCompatActivity {
             if(formula.getText().length() - 1 == -1){
                 Toast.makeText(getApplicationContext(), "연산자가 올 수 없습니다.", Toast.LENGTH_SHORT).show();
                 return;
-            }
-            else if (formula.getText().charAt(formula.getText().length() - 1) == '%') {
+            } else if (formula.getText().charAt(formula.getText().length() - 1) == '%') {
             } else {
                 formula.setText(formula.getText().toString().substring(0, formula.getText().length() - 3));
             }
@@ -145,9 +148,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // % 기호 추가
-    public void percent(View v) {
-        formula.append(number.getText() + "%");
+    // % 기호, sqrt(), 제곱, 1/x 등 기호 추가
+    public void addspoperation(View v) {
+
+        switch (v.getId()){
+            case R.id.percent:
+                formula.append(number.getText() + "%");
+                break;
+            case R.id.root:
+                formula.append("sqrt(" + number.getText() + ")");
+                break;
+            case R.id.power:
+                formula.append("pow(" + number.getText() + ")");
+                break;
+            case R.id.fraction:
+                formula.append("1 / " + number.getText());
+                break;
+        }
         number.setText("0");
         op = false;
     }
@@ -161,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
         }
         Collections.addAll(infix, formula.getText().toString().split(" "));
         result();
+        eqclick = true;
     }
 
     // memory에 저장
@@ -257,19 +275,34 @@ public class MainActivity extends AppCompatActivity {
         return weight;
     }
 
+    // 특수문자 처리 ex) "(", ")", "%", "sqrt()", "
     void handlingchar() {
         for (int i = 0; i < infix.size(); i++) {
-            if (infix.get(i).contains("(")) {
-                String item = infix.get(i);
-                item = item.substring(1, item.length() - 1);
-                infix.set(i, item);
-            }
             if(infix.get(i).contains("%")) {
                 String item = infix.get(i);
                 item = item.substring(0, item.length()-1);
                 Double it = Double.parseDouble(item);
                 it = it * 0.01;
                 item = Double.toString(it);
+                infix.set(i, item);
+            }
+            if(infix.get(i).contains("sqrt(")){
+                String item = infix.get(i);
+                item = item.substring(5, item.length()-1);
+                Double it = Double.parseDouble(item);
+                it = Math.sqrt(it);
+                item = Double.toString(it);
+                infix.set(i, item);
+            } else if (infix.get(i).contains("pow(")) {
+                String item = infix.get(i);
+                item = item.substring(4, item.length()-1);
+                Double it = Double.parseDouble(item);
+                it = Math.pow(it, 2);
+                item = Double.toString(it);
+                infix.set(i, item);
+            } else if (infix.get(i).contains("(")) {
+                String item = infix.get(i);
+                item = item.substring(1, item.length() - 1);
                 infix.set(i, item);
             }
         }
