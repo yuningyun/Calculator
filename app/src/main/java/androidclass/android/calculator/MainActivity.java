@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addoperation(View v) {
-        if(formula.getText() == null || op == true){
+        if(op == true){
             op = false;
 
             if(number.getText().charAt(0) == '-' || number.getText().charAt(0) == '+') {
@@ -150,6 +150,13 @@ public class MainActivity extends AppCompatActivity {
 
     // % 기호, sqrt(), 제곱, 1/x 등 기호 추가
     public void addspoperation(View v) {
+        // 처음 넣는 수가 아니고 앞에 연산자가 없을 때 더하기 기호를 추가하고 뒤에 넣는다.
+        if(!formula.getText().toString().isEmpty()){
+            char in = formula.getText().toString().charAt(formula.getText().length()-2);
+            if(in != '+' || in != '-' || in != 'x' || in != '/') {
+                formula.append(" + ");
+            }
+        }
 
         switch (v.getId()){
             case R.id.percent:
