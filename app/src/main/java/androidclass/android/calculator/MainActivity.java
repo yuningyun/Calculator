@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         infix = new ArrayList<>();
         postfix = new ArrayList<>();
         memorylist = new ArrayList<>();
-
     }
 
     public void addnum(View v) {
@@ -156,7 +155,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void equal(View v) {
         if (formula.length() == 0) return;
-        formula.append(number.getText().toString());
+        if(op == false){
+        } else {
+            formula.append(number.getText().toString());
+        }
         Collections.addAll(infix, formula.getText().toString().split(" "));
         result();
     }
@@ -179,6 +181,11 @@ public class MainActivity extends AppCompatActivity {
 
     // memory 마지막 값에 더하기
     public void memoryplus(View v) {
+        if(memorylist.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "memory에 아무것도 없습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         double m_num = Double.parseDouble(memorylist.get(memorylist.size()-1));
         double n_num = Double.parseDouble(number.getText().toString());
 
@@ -188,6 +195,11 @@ public class MainActivity extends AppCompatActivity {
 
     // memory 마지막 값에 빼기
     public void memorysub(View v) {
+        if(memorylist.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "memory에 아무것도 없습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         double m_num = Double.parseDouble(memorylist.get(memorylist.size()-1));
         double n_num = Double.parseDouble(number.getText().toString());
 
