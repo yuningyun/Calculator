@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
     TextView number;
 
     boolean op = false; // 연산자 입력을 위한 변수
-    boolean eqclick = false; // equals 눌렸는지 확
+    boolean eqclick = false; // equals 눌렸는지 확인
+    boolean spop = false; // %, sqrt, pow, 1/x 뒤에 연산자 있는지 없는지 확인
     private Stack<String> operatorStack; // 연산자를 위한 스택
     List<String> infix; // 중위 표기
     List<String> postfix; // 후위 표기
@@ -60,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.point:
                 if(number.getText().toString().equals("")){
                     number.append("0");
+                } else if(number.getText().toString().contains(".")) {
+                    Toast.makeText(getApplicationContext(), ".을 더 추가할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                    break;
                 }
                 number.append("."); break;
         }
@@ -69,11 +73,15 @@ public class MainActivity extends AppCompatActivity {
         if(op == true){
             op = false;
 
-            if(number.getText().charAt(0) == '-' || number.getText().charAt(0) == '+') {
-                formula.append("("+number.getText()+")");
-            } else if(eqclick == true) {
-                formula.setText(number.getText().toString());
+            if(eqclick == true) {
+                formula.setText("");
+                if(number.getText().charAt(0) == '-' || number.getText().charAt(0) == '+') {
+                    formula.append("(" + number.getText() + ")");
+                } else { formula.setText(number.getText().toString()); }
                 eqclick = false;
+            } else if(spop == true) {
+            } else if(number.getText().charAt(0) == '-' || number.getText().charAt(0) == '+') {
+                formula.append("("+number.getText()+")");
             } else {
                 formula.append(number.getText());
             }
@@ -90,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.div:
                     formula.append(" / ");
                     break;
+            }
+            if(spop == true) {
+                spop = false;
+                return;
             }
             number.setText("0");
         } else {
@@ -135,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
         formula.setText("");
         number.setText("0");
         op = false;
+        spop = false;
+        eqclick = false;
         infix.clear();
     }
 
@@ -151,7 +165,10 @@ public class MainActivity extends AppCompatActivity {
     // % 기호, sqrt(), 제곱, 1/x 등 기호 추가
     public void addspoperation(View v) {
         // 처음 넣는 수가 아니고 앞에 연산자가 없을 때 더하기 기호를 추가하고 뒤에 넣는다.
-        if(!formula.getText().toString().isEmpty()){
+        if(eqclick == true) {
+            formula.setText("");
+            eqclick = false;
+        } else if(!formula.getText().toString().isEmpty()){
             char in = formula.getText().toString().charAt(formula.getText().length()-2);
             if(in == '+' || in == '-' || in == 'x' || in == '/') {
             } else {
@@ -175,12 +192,13 @@ public class MainActivity extends AppCompatActivity {
         }
         number.setText("0");
         op = false;
+        spop = true;
     }
 
 
     public void equal(View v) {
         if (formula.length() == 0) return;
-        if(op == false){
+        if(op == false && number.getText().toString().equals("0")){
         } else {
             formula.append(number.getText().toString());
         }
