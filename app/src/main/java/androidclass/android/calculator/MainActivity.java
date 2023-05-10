@@ -199,6 +199,11 @@ public class MainActivity extends AppCompatActivity {
     public void equal(View v) {
         if (formula.length() == 0) return;
         if(op == false && number.getText().toString().equals("0")){
+            char in = formula.getText().toString().charAt(formula.getText().length()-2);
+            if(in == '+' || in == '-' || in == 'x' || in == '/') {
+                Toast.makeText(getApplicationContext(), "계산을 할 수 없습니다. 숫자를 입력하세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
         } else {
             formula.append(number.getText().toString());
         }
