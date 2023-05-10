@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
                 formula.append(" + ");
             }
         }
-        change
 
         switch (v.getId()){
             case R.id.percent:
